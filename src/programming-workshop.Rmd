@@ -1,0 +1,223 @@
+---
+title: "Programming workshop"
+output: html_notebook
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+Aims - Speed - Comparmentalisation, modularity Compare with large
+analysis script with settings configured (hard coded) at multiple
+places.
+
+Topics - loops, general issues with control flow(?) speed in R -
+data.table - classes - R modules - Relational databases?
+
+# Background
+
+-   Small analysis usually grow into something larger and more complex.
+-   The analysis is usually re-run more times than expected.
+    Reproducibility.
+-   Large datasets.
+-   We want our analyses to run quickly.
+-   Combinations (interactions) of the above.
+
+# 0. Preparations
+
+To run the code in the example files and examples in this document, you
+will need to install and download a couple of resources.
+
+## R packages
+
+You can install the required R packages by running this code.
+
+```{r install required packages, eval=FALSE, purl=FALSE}
+
+install.packages('tictoc')
+install.packages('data.table')
+
+```
+
+## Data files
+
+#TODO
+
+<https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90027001-GCST90028000/GCST90027164/>
+
+# 1. Baseline; an unstructured and slow analysis script
+
+We can imagine an unstructured and slow analysis script which will serve
+as our starting point and reference. An example of this can be seen
+[here](src/analysis-script-1-messy-and-slow-analysis-script.R). This is a
+pretend scenario with made-up analyses which we will improve throughout
+the workshop.
+
+Please have a look inside this script.
+
+The example analysis is computing a Z score for a set of genetic
+variants in the summary statistics from a Genome-Wide Association Study
+(GWAS).
+
+It:
+
+1.  Reads compressed files with csv/tsv type data into two data-frames.
+
+2.  Runs analysis steps for each specified genetic variant. These are
+    specified by an id; rs-number in this case.
+
+# 2. Basic control structures
+
+## Conditional statements
+
+Conditional statements execute code based on a condition.
+
+### Example: if
+
+```{r examples conditional statements if}
+
+var1 <- 1
+var2 <- 2 - 1
+var3 <- NA
+
+if(var1 == var2){
+  cat("We are in the conditional block!")
+  var3 <- var1 + var2 + 1
+}
+
+var3
+
+```
+
+### Example: ifelse
+
+```{r examples conditional statements ifelse}
+
+var1 <- 1
+var2 <- 2 - 1
+var3 <- NA
+
+var3 <- ifelse(var1==var2, var1 + var2 + 1, NA)
+
+var3
+
+```
+
+## Loops
+
+### Example: for
+
+For-loop along a list
+
+```{r examples conditional statements for}
+
+lValuesToProcess <- c(1,2,3,4,5)
+output <-c()
+
+for(v in lValuesToProcess){
+  output[length(output)+1]<-v+1
+}
+
+output
+
+```
+
+For-loop with an index
+
+```{r examples conditional statements for 2}
+
+lValuesToProcess <- c(1,2,3,4,5)
+output <-c()
+
+for(iV in 1:length(lValuesToProcess)){
+  output[iV]<-lValuesToProcess[iV]+1
+}
+
+output
+
+```
+
+## Functions
+
+Functions structure code that you want to execute repeatedly.
+
+Example: function, with default value for an argument
+
+```{r examples functions}
+
+myFunction <- function(
+    myArgument1=1,
+    myArgument2
+    ){
+  myArgument1 + myArgument2
+}
+
+#test
+myFunction(myArgument2 = 2)
+
+```
+
+## Conclusions
+
+-   Use control structures to structure your program and make it more
+    effective.
+
+-   You can make the program more effective both in terms of maintenance
+    and readability, and in terms of resource use and execution speed.
+    These aims may sometimes be mutually exclusive.
+
+## Further material on control structures
+
+Conditional control structures and loops
+
+<https://www.w3schools.com/r/r_if_else.asp>
+
+<https://www.w3schools.com/r/r_while_loop.asp>
+
+# 3. Variable scope in control structures
+
+When using control structures, you need to be aware of the scope
+variables are in. Scope concerns:
+
+1.  whether a variable is available inside a control structure or not
+
+2.  how setting a variable is reflected outside of the control structure
+
+Control structures such as if and for share scope with the outside
+environment. This was demonstrated in previous examples.
+
+Functions (and classes - see later content) do not share the scope of
+the outside environment in the same way. Functions can read external
+variables, but not set them in the outside scope.
+
+### Example: scope in functions
+
+```{r examples scope functions}
+
+var1 <- 1
+var2 <- 2
+var3 <- NA
+
+myFunction <- function(
+    myArgument1=1,
+    myArgument2
+    ){
+
+  var3 <- var1 + myArgument2
+  var3
+}
+
+#test
+myFunction(myArgument2 = 2)
+var3
+
+
+```
+
+# 4. A less messy, but still slow analysis script
+
+
+The second script continues on the pretend analysis scenario from the first script and has been enhanced with basic loop control structures. You can find it [here](src/analysis-script-2-less-messy-but-slow-analysis-script.R). 
+
+Please have a look inside this script.
+
+

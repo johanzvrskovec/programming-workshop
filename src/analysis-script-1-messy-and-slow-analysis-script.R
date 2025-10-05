@@ -3,13 +3,13 @@
 library(tictoc)
 
 tic()
-d<-read.table(gzfile("/Users/jakz/Documents/work_rstudio/programming-workshop/data/1kgp3.bX.eur.l2.jz2023.gz"),
-              sep = "\t",
+d<-read.table(gzfile("/Users/jakz/Documents/work_rstudio/programming-workshop/data/reference.1000G.maf.0.005.txt.gz"),
+              #sep = "\t",
               header = TRUE,
               fill = TRUE,
               blank.lines.skip = TRUE,
               comment.char = ""
-) #264.74 sec
+) #66.785 sec
 toc()
 
 nrow(d)
@@ -68,6 +68,8 @@ if(CHR1==CHR2 & BP1==BP2 & MAF<0.25) {
 
 
 #.
+#.
+# Pretend there is an additional number of manually entered analyses for other rs-ids here as well.
 #.
 #.
 

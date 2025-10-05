@@ -15,17 +15,43 @@ data.table - classes - R modules - Relational databases?
 
 # Background
 
--   Small analysis usually grow into something larger and more complex.
--   The analysis is usually re-run more times than expected.
-    Reproducibility.
+-   A small analysis usually grows into something larger and more
+    complex.
+-   The analysis is usually re-run more times than expected. Someone
+    (you?) may want to re-run the analysis for reproducibility.
 -   Large datasets.
 -   We want our analyses to run quickly.
 -   Combinations (interactions) of the above.
 
 # 0. Preparations
 
+5+10 min
+
+If you are a new user of R and RStudio, **do not worry if you can't
+finish all the preparation steps right now**. There will be time later
+to catch up. Make an attempt at installing and getting the files into
+the right place. If you can't finish, **please follow along the
+presentation when it continues**, and you will have time to catch up in
+the later breaks and practicals.
+
 To run the code in the example files and examples in this document, you
 will need to install and download a couple of resources.
+
+## Setting up your programming environment
+
+If you do not have R and an integrated development environment (IDE) to
+develop R programs, you will need to install these first. Please follow
+[this guide](https://rstudio-education.github.io/hopr/starting.html) to
+install R and RStudio for your platform.
+
+## Getting the workshop files from GitHub to your computer
+
+The workshop is hosted on GitHub in [this
+repository](https://github.com/johanzvrskovec/programming-workshop). You
+can either clone this repository using Git, or download the content by
+1.) clicking the large green button saying "\< \> Code", 2.) selecting
+"Download ZIP", 3.) unpack the downloaded ZIP file. It should contain
+the workshop project directory.
 
 ## R packages
 
@@ -40,17 +66,44 @@ install.packages('data.table')
 
 ## Data files
 
-#TODO
+To run the example analysis scripts you will need two data files. Both
+of these files are to be put into the project `data` folder.
 
-<https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90027001-GCST90028000/GCST90027164/>
+### The reference panel file
+
+One data file; `reference.1000G.maf.0.005.txt.gz`, contains a reference
+list of genetic variants. Please download the variant reference file
+from
+[here](https://utexas.app.box.com/s/vkd36n197m8klbaio3yzoxsee6sxo11v).
+
+### The Genome-Wide Association Study summary statistics file
+
+The other data file; `GCST90027164_buildGRCh37.tsv.gz`, contains summary
+statistics from a Genome-Wide Association Study (GWAS) performed on
+Amyotrophic lateral sclerosis (ALS). This file can be downloaded from
+[here](https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90027001-GCST90028000/GCST90027164/).
+
+Do not forget to put the downloaded files into the project `data` folder
+for the workshop scripts to work.
+
+## Activity + Q&A
+
+-   Get the project to run in your IDE (RStudio).
+
+-   Edit the code in analysis script 1 and code chunks. Run this code.
+    Look at the content of variables.
 
 # 1. Baseline; an unstructured and slow analysis script
 
+T+15 min\
+5 min
+
 We can imagine an unstructured and slow analysis script which will serve
-as our starting point and reference. An example of this can be seen
-[here](src/analysis-script-1-messy-and-slow-analysis-script.R). This is a
-pretend scenario with made-up analyses which we will improve throughout
-the workshop.
+as our starting point and reference. An example of such a script can be
+seen [here](src/analysis-script-1-messy-and-slow-analysis-script.R).
+This is a pretend scenario with made-up analyses which we will improve
+throughout the workshop. The script is supposed to illustrate an
+analysis script which someone made to do *ad-hoc* computations.
 
 Please have a look inside this script.
 
@@ -66,6 +119,9 @@ It:
     specified by an id; rs-number in this case.
 
 # 2. Basic control structures
+
+T+20 min\
+5 min
 
 ## Conditional statements
 
@@ -153,13 +209,15 @@ myFunction <- function(
 
 #test
 myFunction(myArgument2 = 2)
+myFunction(myArgument2 = 3)
+myFunction(myArgument2 = 10)
 
 ```
 
 ## Conclusions
 
 -   Use control structures to structure your program and make it more
-    effective.
+    compartmentalised and re-useable.
 
 -   You can make the program more effective both in terms of maintenance
     and readability, and in terms of resource use and execution speed.
@@ -174,6 +232,9 @@ Conditional control structures and loops
 <https://www.w3schools.com/r/r_while_loop.asp>
 
 # 3. Variable scope in control structures
+
+T+25 min\
+5 min
 
 When using control structures, you need to be aware of the scope
 variables are in. Scope concerns:
@@ -215,8 +276,13 @@ var3
 
 # 4. A less messy, but still slow analysis script
 
+T+30 min\
+5+10 min
 
-The second script continues on the pretend analysis scenario from the first script and has been enhanced with basic loop control structures. You can find it [here](src/analysis-script-2-less-messy-but-slow-analysis-script.R). 
+The second script continues on the pretend analysis scenario from the
+first script and has been enhanced with basic loop control structures.
+You can find it
+[here](src/analysis-script-2-less-messy-but-slow-analysis-script.R).
 
 Please have a look inside this script.
 
@@ -224,12 +290,133 @@ It:
 
 1.  Reads compressed files with csv/tsv type data into two data-frames.
 
-2.  Runs analysis steps for each specified genetic variant. The specified genetic variants are held in the lSelectedVariants list.
+2.  Runs analysis steps for each specified genetic variant. The
+    specified genetic variants are held in the `lSelectedVariants` list.
+
+## Activity + Q&A
+
+-   Test the scope of a function
 
 # 5. Data linking and joins
 
-A large part of our current pretend analysis consists of linking one dataset (the reference list) with the other datsaet (the GWAS dataset). There are optimised routines to do this called 'joins'. Depending on 
+T+45\
+5 min
+
+A large part of our current pretend analysis consists of linking one
+dataset (the reference list) with the other datsaet (the GWAS dataset).
+There are optimised routines to do this called 'joins'. There are
+different types of joins based on what data is preserved when matching
+rows from either dataset.
+
+## Inner join
+
+In an 'inner join', the rows of two datasets are matched on a condition.
+All matches are saved, allowing for duplicate matches, and all
+non-matching rows are excluded.
+
+### Example: inner join
+
+This is an inner join performed in standard R.
+
+```{r examples joins inner-join}
+
+df1 <- data.frame(
+  id=c(1,2,3,4,5),
+  value=c("apple",47,"banana",-123.7,99)
+)
+
+df2 <- data.frame(
+  id=c(1,3,4,3,6),
+  value=c(1986,1965,2007,1986,1999)
+)
+
+dfInnerJoin<-merge(df1,df2,by = "id", all = FALSE)
+dfInnerJoin
 
 
+```
+
+## Left (outer) join
+
+In a 'left join', the rows of two datasets are matched on a condition.
+All matches are saved, allowing for duplicate matches, all non-matching
+rows of the first (left) dataset are saved but the non-matching rows of
+the second (right) dataset are excluded.
+
+### Example: left (outer) join
+
+This is a left join performed in standard R.
+
+```{r examples joins left-join}
+
+df1 <- data.frame(
+  id=c(1,2,3,4,5),
+  value=c("apple",47,"banana",-123.7,99)
+)
+
+df2 <- data.frame(
+  id=c(1,3,4,3,6),
+  value=c(1986,1965,2007,1986,1999)
+)
+
+dfLeftJoin<-merge(df1,df2,by = "id", all.x = TRUE, all.y = FALSE)
+dfLeftJoin
 
 
+```
+
+## Right (outer) join
+
+In a 'right join', the rows of two datasets are matched on a condition.
+All matches are saved, allowing for duplicate matches, all non-matching
+rows of the second (right) dataset are saved but the non-matching rows
+of the first (left) dataset are excluded.
+
+### Example: right (outer) join
+
+This is a right join performed in standard R.
+
+```{r examples joins right-join}
+
+df1 <- data.frame(
+  id=c(1,2,3,4,5),
+  value=c("apple",47,"banana",-123.7,99)
+)
+
+df2 <- data.frame(
+  id=c(1,3,4,3,6),
+  value=c(1986,1965,2007,1986,1999)
+)
+
+dfRightJoin<-merge(df1,df2,by = "id", all.x = FALSE, all.y = TRUE)
+dfRightJoin
+```
+
+## Full outer join
+
+In a 'full outer join', the rows of two datasets are matched on a
+condition. All matches are saved, allowing for duplicate matches, all
+non-matching rows of either dataset are saved.
+
+### Example: full outer join
+
+This is a full outer join performed in standard R.
+
+```{r examples joins full-outer-join}
+
+
+df1 <- data.frame(
+  id=c(1,2,3,4,5),
+  value=c("apple",47,"banana",-123.7,99)
+)
+
+df2 <- data.frame(
+  id=c(1,3,4,3,6),
+  value=c(1986,1965,2007,1986,1999)
+)
+
+dfFullOuterJoin<-merge(df1,df2,by = "id", all.x = TRUE, all.y = TRUE)
+dfFullOuterJoin
+```
+
+# 6. An analysis script using joins

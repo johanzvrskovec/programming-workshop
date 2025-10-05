@@ -220,4 +220,16 @@ The second script continues on the pretend analysis scenario from the first scri
 
 Please have a look inside this script.
 
+It:
+
+1.  Reads compressed files with csv/tsv type data into two data-frames.
+
+2.  Runs analysis steps for each specified genetic variant. The specified genetic variants are held in the lSelectedVariants list.
+
+# 5. Data linking and joins
+
+A large part of our current pretend analysis consists of linking one dataset (the reference list) with the other datsaet (the GWAS dataset). There are optimised routines to do this called 'joins'. Depending on 
+
+
+
 

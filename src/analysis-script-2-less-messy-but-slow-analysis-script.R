@@ -1,8 +1,8 @@
-#The 'messy and slow' analysis script - you probably don't want to run this
+#A slightly less messy but still slow analysis script - you probably don't want to run this
 #install.packages('tictoc')
 library(tictoc)
 
-#First run
+set.seed(123) #this is for the randomised generation of a data subset
 
 tic()
 dfVariantReference<-read.table(gzfile("/Users/jakz/Documents/work_rstudio/programming-workshop/data/1kgp3.bX.eur.l2.jz2023.gz"),
@@ -25,69 +25,41 @@ dfGWAS<-read.table(gzfile("/Users/jakz/Documents/work_rstudio/programming-worksh
                fill = TRUE,
                blank.lines.skip = TRUE,
                comment.char = ""
-) #253.414 sec
+) #98.514 sec
 toc()
 
 nrow(dfGWAS)
 colnames(dfGWAS)
 
+#let's pretend we are interested in this subset
+dfGWAS$rand<-rnorm(n = nrow(dfGWAS), mean = 0, sd = 1)
+lSelectedVariants<-dfGWAS[dfGWAS$rand>0.5,]$rsid
+length(lSelectedVariants)
 
-lSelectedVariants <- c('rs11240777','rs113656530','rs2096536')
+#improved output/metadata
+dfOutput <- as.data.frame(matrix(NA,ncol=0,nrow=0))
 
-saved<-c()
-saved.z<-c()
+#the analyses are now contained in a for-loop
+for(iVariant in 1:length(lSelectedVariants)) {
+  #the 'analysis'
+  #iVariant<-1
+  
+  cVariantRsId<-lSelectedVariants[iVariant]
+  CHR1 <- dfVariantReference[dfVariantReference$SNP==cVariantRsId,c("CHR")]
+  CHR2 <- dfGWAS[dfGWAS$rsid==cVariantRsId,c("chromosome")]
+  MAF <- dfVariantReference[dfVariantReference$SNP==cVariantRsId,c("MAF")]
+  BP1 <- dfVariantReference[dfVariantReference$SNP==cVariantRsId,c("BP")]
+  BP2 <- dfGWAS[dfGWAS$rsid==cVariantRsId,c("base_pair_location")]
+  if(CHR1==CHR2 & BP1==BP2 & MAF<0.25) {
+    
+    BETA<-dfGWAS[dfGWAS$rsid==cVariantRsId,c("beta")]
+    SE<-dfGWAS[dfGWAS$rsid==cVariantRsId,c("standard_error")]
+    Z=BETA/SE
 
-for(iVariant in 1:length())
-
-
-#the 'analysis'
-#rs11240777
-CHR1<-d[d$SNP=='rs11240777',c("CHR")]
-CHR2<-d2[d2$rsid=='rs11240777',c("chromosome")]
-MAF<-d[d$SNP=='rs11240777',c("MAF")]
-BP1<-d[d$SNP=='rs11240777',c("BP")]
-BP2<-d2[d2$rsid=='rs11240777',c("base_pair_location")]
-if(CHR1==CHR2 & BP1==BP2 & MAF<0.25) {
-  saved[length(saved)+1]<-'rs11240777' 
-  BETA<-d2[d2$rsid=='rs11240777',c("beta")]
-  SE<-d2[d2$rsid=='rs11240777',c("standard_error")]
-  Z=BETA/SE
-  saved.z[length(saved.z)+1]<-Z
+    dfOutput[cVariantRsId,c("Z")]<-Z
+  }
+  
+  if(iVariant %% 100 ==0) cat(".")
+  
 }
-
-
-#rs113656530
-CHR1<-d[d$SNP=='rs113656530',c("CHR")]
-CHR2<-d2[d2$rsid=='rs113656530',c("chromosome")]
-MAF<-d[d$SNP=='rs113656530',c("MAF")]
-BP1<-d[d$SNP=='rs113656530',c("BP")]
-BP2<-d2[d2$rsid=='rs113656530',c("base_pair_location")]
-if(CHR1==CHR2 & BP1==BP2 & MAF<0.25) {
-  saved[length(saved)+1]<-'rs113656530' 
-  BETA<-d2[d2$rsid=='rs113656530',c("beta")]
-  SE<-d2[d2$rsid=='rs113656530',c("standard_error")]
-  Z=BETA/SE
-  saved.z[length(saved.z)+1]<-Z
-}
-
-
-#.
-#.
-#.
-
-#rs2096536
-CHR1<-d[d$SNP=='rs2096536',c("CHR")]
-CHR2<-d2[d2$rsid=='rs2096536',c("chromosome")]
-MAF<-d[d$SNP=='rs2096536',c("MAF")]
-BP1<-d[d$SNP=='rs2096536',c("BP")]
-BP2<-d2[d2$rsid=='rs2096536',c("base_pair_location")]
-if(CHR1==CHR2 & BP1==BP2 & MAF<0.25) {
-  saved[length(saved)+1]<-'rs2096536' 
-  BETA<-d2[d2$rsid=='rs2096536',c("beta")]
-  SE<-d2[d2$rsid=='rs2096536',c("standard_error")]
-  Z=BETA/SE
-  saved.z[length(saved.z)+1]<-Z
-}
-
-
 

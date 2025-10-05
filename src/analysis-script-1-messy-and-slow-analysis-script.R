@@ -2,8 +2,6 @@
 #install.packages('tictoc')
 library(tictoc)
 
-#First run
-
 tic()
 d<-read.table(gzfile("/Users/jakz/Documents/work_rstudio/programming-workshop/data/1kgp3.bX.eur.l2.jz2023.gz"),
               sep = "\t",
@@ -25,7 +23,7 @@ d2<-read.table(gzfile("/Users/jakz/Documents/work_rstudio/programming-workshop/d
                fill = TRUE,
                blank.lines.skip = TRUE,
                comment.char = ""
-) #253.414 sec
+) #98.514 sec
 toc()
 
 nrow(d2)

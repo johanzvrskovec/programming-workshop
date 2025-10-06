@@ -5,13 +5,13 @@ library(tictoc)
 set.seed(123) #this is for the randomised generation of a data subset
 
 tic()
-dfVariantReference<-read.table(gzfile("/Users/jakz/Documents/work_rstudio/programming-workshop/data/1kgp3.bX.eur.l2.jz2023.gz"),
-              sep = "\t",
-              header = TRUE,
-              fill = TRUE,
-              blank.lines.skip = TRUE,
-              comment.char = ""
-) #264.74 sec
+dfVariantReference<-read.table(gzfile("/Users/jakz/Documents/work_rstudio/programming-workshop/data/reference.1000G.maf.0.005.txt.gz"),
+                   #sep = "\t",
+                   header = TRUE,
+                   fill = TRUE,
+                   blank.lines.skip = TRUE,
+                   comment.char = ""
+) #66.785 sec
 toc()
 
 nrow(dfVariantReference)
@@ -20,17 +20,18 @@ colnames(dfVariantReference)
 
 tic()
 dfGWAS<-read.table(gzfile("/Users/jakz/Documents/work_rstudio/programming-workshop/data/GCST90027164_buildGRCh37.tsv.gz"),
-               sep = "\t",
-               header = TRUE,
-               fill = TRUE,
-               blank.lines.skip = TRUE,
-               comment.char = ""
+                   sep = "\t",
+                   header = TRUE,
+                   fill = TRUE,
+                   blank.lines.skip = TRUE,
+                   comment.char = ""
 ) #98.514 sec
 toc()
 
 nrow(dfGWAS)
 colnames(dfGWAS)
 
+tic()
 #let's pretend we are interested in this subset
 dfGWAS$rand<-rnorm(n = nrow(dfGWAS), mean = 0, sd = 1)
 #lSelectedVariants<-dfGWAS[dfGWAS$rand>0.5,]$rsid
@@ -58,4 +59,4 @@ dfOutput$Z<-dfOutput$beta/dfOutput$standard_error
 #trim output
 dfOutput.final<-dfOutput[,c("SNP","Z")]
 
-
+toc() #71.627 sec

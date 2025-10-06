@@ -53,6 +53,9 @@ can either clone this repository using Git, or download the content by
 "Download ZIP", 3.) unpack the downloaded ZIP file. It should contain
 the workshop project directory.
 
+**Note: You will have to manually edit file path settings for some of
+the code files to work on your computer!**
+
 ## R packages
 
 You can install the required R packages by running this code.
@@ -279,9 +282,9 @@ var3
 T+30 min\
 5+10 min
 
-The second script continues on the pretend analysis scenario from the
-first script and has been enhanced with basic loop control structures.
-You can find it
+The second analysis script continues on the pretend analysis scenario
+from the first script and has been enhanced with basic loop control
+structures. You can find it
 [here](src/analysis-script-2-less-messy-but-slow-analysis-script.R).
 
 Please have a look inside this script.
@@ -291,7 +294,8 @@ It:
 1.  Reads compressed files with csv/tsv type data into two data-frames.
 
 2.  Runs analysis steps for each specified genetic variant. The
-    specified genetic variants are held in the `lSelectedVariants` list.
+    specified genetic variants are held in the `lSelectedVariants` list,
+    which now is randomly generated as a subset of the GWAS dataset.
 
 ## Activity + Q&A
 
@@ -327,7 +331,7 @@ df1 <- data.frame(
 
 df2 <- data.frame(
   id=c(1,3,4,3,6),
-  value=c(1986,1965,2007,1986,1999)
+  value=c(1986,1965,2007,1981,1999)
 )
 
 dfInnerJoin<-merge(df1,df2,by = "id", all = FALSE)
@@ -385,7 +389,7 @@ df1 <- data.frame(
 
 df2 <- data.frame(
   id=c(1,3,4,3,6),
-  value=c(1986,1965,2007,1986,1999)
+  value=c(1986,1965,2007,1981,1999)
 )
 
 dfRightJoin<-merge(df1,df2,by = "id", all.x = FALSE, all.y = TRUE)
@@ -412,7 +416,7 @@ df1 <- data.frame(
 
 df2 <- data.frame(
   id=c(1,3,4,3,6),
-  value=c(1986,1965,2007,1986,1999)
+  value=c(1986,1965,2007,1981,1999)
 )
 
 dfFullOuterJoin<-merge(df1,df2,by = "id", all.x = TRUE, all.y = TRUE)
@@ -420,3 +424,331 @@ dfFullOuterJoin
 ```
 
 # 6. An analysis script using joins
+
+T+50 min\
+5+10 min
+
+The third analysis script continues on the pretend analysis scenario
+from the first and second scripts and has been changed to use an inner
+join instead of the value matching in the previous loop. You can find it
+[here](src/analysis-script-3-using-joins.R).
+
+Please have a look inside this script.
+
+It:
+
+1.  Reads compressed files with csv/tsv type data into two data-frames.
+
+2.  Runs analysis steps for each specified genetic variant. The
+    specified genetic variants are specified by the `selected` column in
+    the GWAS data frame, rather than in a separate list.
+
+3.  The output is based on the resulting data frame from the inner join
+    procedure.
+
+## Activity + Q&A
+
+-   Run the different joins above.
+-   Run the third analysis script and inspect the output.
+
+# Longer break
+
+T+65 min\
+0+10 min
+
+Here we have a longer break. This should be a real break and not a
+practical activity. Feel free to review the previous content and
+experiment with running the examples and scripts. You can also try to
+solve any technical issues you may have encountered; for example if you
+gave not yet managed to make your IDE working or gotten hold of the
+material.
+
+# 7. Introduction to the package data.table
+
+T+75 min\
+5+10 min
+
+## Background
+
+The package data.table is primarily an alternative form of a data.frame.
+The package also contains utilities to work with this alternative data
+format. We consider it here because it has some specific advantages in
+terms of speed, utility, and syntax.
+
+## Creating a data.table
+
+You can create a data.table from scratch, or convert a data.frame into a
+data.table.
+
+### Example: creating a data.table
+
+This demonstrates how to create a data.table from scratch or converting
+between a data.frame and a data.table.
+
+```{r examples data.table creation}
+
+library(data.table)
+
+#a new data.table
+dt1 <- data.table(
+  id=c(1,2,3,4,5),
+  value=c("apple",47,"banana",-123.7,99)
+)
+dt1
+
+#a data.frame
+df2 <- data.frame(
+  id=c(1,3,4,3,6),
+  value=c(1986,1965,2007,1981,1999)
+)
+
+#convert a data frame into a data table
+dt2<-as.data.table(df2)
+dt2
+
+#or you can set a data.frame to aquire data.table character (faster?)
+dt2<-df2
+setDT(dt2)
+dt2
+
+```
+
+## Element access and subsets in data.table
+
+Rather than providing full lists in an element access query, you can
+reference the internal data.table columns.
+
+### Example: referencing internal data.table columns
+
+```{r}
+
+#example of subselection in data.frame
+df1 <- data.frame(
+  id=c(1,2,3,4,5),
+  value=c("apple",47,"banana",-123.7,99)
+)
+df1[df1$value=="apple" | df1$value == '99', c("id","value")]
+
+library(data.table)
+
+#example of subselection in data.table
+dt1 <- data.table(
+  id=c(1,2,3,4,5),
+  value=c("apple",47,"banana",-123.7,99)
+)
+
+dt1[value=="apple" | value == '99', ]
+dt1[value=="apple" | value == '99', .(id)] #column subset
+dt1[value=="apple" | value == '99', .(id, number=value)] #direct rename
+
+
+```
+
+Subsets from a data.table will always be returned as a data.table. This
+is different from data.frame where single column selections would be
+converted into lists. In data.table you will get single column/row
+selections as a single columned/rowed data.table.
+
+### Example: single column subset
+
+```{r}
+
+#example of subselection in data.frame
+df1 <- data.frame(
+  id=c(1,2,3,4,5),
+  value=c("apple",47,"banana",-123.7,99)
+)
+df1[df1$id==2 | df1$id==3, c("value")] #column subset
+df1[df1$id==2, ] #row subset
+
+library(data.table)
+
+#example of subselection in data.table
+dt1 <- data.table(
+  id=c(1,2,3,4,5),
+  value=c("apple",47,"banana",-123.7,99)
+)
+
+dt1[id==2 | id == 3, .(value)] #column subset
+dt1[id==2, ] #row subset
+
+
+```
+
+## Activity + Q&A
+
+-   Run the data.table examples above
+
+# 8. Differences in memory models, and data.table joins
+
+T+90 min\
+5+10 min
+
+## The memory model of data.table
+
+The default behaviour of R and data.frame is to use a *deep copy* of
+data during various operations and specifically when traversing function
+scopes. This requires considerable resources and time to perform
+(proportional to the size of the data).
+
+In data.table however, we use a *shallow copy* of the data on the R end
+(or direct memory reference) as default, referring to the same
+underlying data across scopes such as functions and join operations.
+
+See the below schematic illustrations of a deep and shallow memory
+operation.
+
+![Illustration of a deep copy operation](illustrations/deep_copy.svg)
+
+![Illustration of a shallow copy
+operation](illustrations/shallow_copy.svg)
+
+### Example: function scope when using data table
+
+A data.frame is deep copied into the function, and the operation inside
+the function will only affect the function copy. The data.table is
+passed to the function with a reference to the underlying data in a
+shallow copy, and the operation inside the function will persist outside
+of the function.
+
+```{r}
+
+library(data.table)
+
+df1 <- data.frame(
+  id=c(1,2,3,4,5),
+  value=c("apple",47,"banana",-123.7,99)
+)
+
+dt1 <- data.table(
+  id=c(1,2,3,4,5),
+  value=c("apple",47,"banana",-123.7,99)
+)
+
+myFunction <- function(
+    myArgument1,
+    myArgument2
+    ){
+  
+  df1Inside<-myArgument1
+  dt1Inside<-myArgument2
+  print(df1Inside)
+  print(dt1Inside)
+
+  
+  df1Inside[df1Inside$id==1,c("value")]<-"banana2"
+  dt1Inside[id==1,value:="banana2"]
+  
+}
+
+#test
+myFunction(df1,dt1)
+
+df1
+dt1
+
+
+```
+
+## Join using data.table
+
+You can join data.tables in the same way as you could join data.frames,
+using the the merge function. Additionally, the package data.table
+provides data sorting and indexing options, making join operations on
+data.tables more efficient and faster.
+
+### Example: data.table join using merge and index
+
+```{r}
+
+dt1 <- data.table(
+  id=c(1,2,3,4,5),
+  value=c("apple",47,"banana",-123.7,99)
+)
+setkeyv(dt1,cols = "id")
+
+dt2 <- data.table(
+  id=c(1,3,4,3,6),
+  value=c(1986,1965,2007,1981,1999)
+)
+setkeyv(dt2,cols = "id")
+
+dtFullOuterJoin<-merge(dt1, dt2, by = "id", all=TRUE)
+dtFullOuterJoin
+
+```
+
+## Alternative data.table join syntax
+
+The package data.table also comes with its own, more powerful, join
+syntax based on the previous subset/element access syntax.
+
+### Example: data.table join using the data.table syntax
+
+```{r}
+
+dt1 <- data.table(
+  id=c(1,2,3,4,5),
+  category=c('a','a','b','a','b'),
+  year=c(1986,1965,2007,1981,1999)
+)
+setkeyv(dt1,cols = c("id","category"))
+
+dt2 <- data.table(
+  id=c(1,3,4,3,6),
+  categoryOtherName=c('a','a','b','b','b'),
+  year=c(1976,1965,2007,1981,1999)
+)
+setkeyv(dt2,cols = c("id","categoryOtherName"))
+
+#right join
+dtRightJoin<-dt1[dt2, on=c("id", category="categoryOtherName"), ]
+dtRightJoin
+
+#left join
+dtLeftJoin<-dt2[dt1, on=c("id", categoryOtherName="category"), ]
+dtLeftJoin
+
+#inner join
+dtInnerJoin<-dt1[dt2, on=c("id", category="categoryOtherName"), nomatch = NULL]
+dtInnerJoin
+
+#inner join with other condition than equality
+#note how the output from the 'right' dataframe is preferred
+dtInnerJoinCondition<-dt1[dt2, on=list(id, year>=year), nomatch = NULL]
+dtInnerJoinCondition
+
+```
+
+### Example: data.table join updating a data.table by reference
+
+It is possible to update a data in-place during a join operation, rather
+than copying and creating a new data.table. This operation is very fast.
+
+```{r}
+
+dt1 <- data.table(
+  id=c(1,2,3,4,5),
+  category=c('a','a','b','a','b'),
+  year=c(1986,1965,2007,1981,1999)
+)
+setkeyv(dt1,cols = c("id","category"))
+
+dt2 <- data.table(
+  id=c(1,3,4,3,6),
+  categoryOtherName=c('a','a','b','b','b'),
+  year=c(1976,1965,2007,1981,1999)
+)
+setkeyv(dt2,cols = c("id","categoryOtherName"))
+
+
+#join, updating dt1 by reference
+dt1[dt2, on=list(id, year>=year), c('otherYear','newColumn') := list(i.year,'pineapple')]
+dt1
+```
+
+## Activity + Q&A
+
+-   Run the data.table examples above
+-   Explore and run the fourth analysis script
+    [here](src/analysis-script-4-using-data-table.R).

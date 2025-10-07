@@ -661,6 +661,8 @@ data.tables more efficient and faster.
 
 ```{r}
 
+library(data.table)
+
 dt1 <- data.table(
   id=c(1,2,3,4,5),
   value=c("apple",47,"banana",-123.7,99)
@@ -686,6 +688,8 @@ syntax based on the previous subset/element access syntax.
 ### Example: data.table join using the data.table syntax
 
 ```{r}
+
+library(data.table)
 
 dt1 <- data.table(
   id=c(1,2,3,4,5),
@@ -727,6 +731,8 @@ than copying and creating a new data.table. This operation is very fast.
 
 ```{r}
 
+library(data.table)
+
 dt1 <- data.table(
   id=c(1,2,3,4,5),
   category=c('a','a','b','a','b'),
@@ -752,3 +758,148 @@ dt1
 -   Run the data.table examples above
 -   Explore and run the fourth analysis script
     [here](src/analysis-script-4-using-data-table.R).
+
+# 9. Classes in R, and specifically Reference Classes
+
+Classes are extensions to function arguments and scopes where multiple
+functions can share the same context.
+
+## The R Reference Class
+
+R has many types of classes. We will focus on the class called Reference
+Class due to its preferable memory handling properties.
+
+### Example: Reference Class
+
+```{r}
+
+myAnalysisClassHandle <- setRefClass(
+  "myAnalysisClass",
+   fields = list(
+   myChar = "character",
+   myNum = "numeric",
+   myDF = "ANY"
+   ),
+   methods = list
+   (
+     #this is the constructor as per convention
+     initialize=function(myCharInit)
+     {
+       myChar <<- myCharInit
+       myNum <<- 2
+       myDF <<- data.frame(
+                  id=c(1,2,3,4,5),
+                  value=c("apple",47,"banana",-123.7,99)
+                )
+       
+       myDF$myNumInObj <<- rep(myNum,nrow(myDF))
+     }
+  )
+)
+
+# we can add more methods after creating the ref class (but not more fields!)
+myAnalysisClassHandle$methods(
+  doSomething=function(myNumSet){
+    
+    myNum <<- myNumSet
+    myDF$newColumn <<- rep(myNum,nrow(myDF))
+    
+    return(myNum)
+   
+  }
+)
+
+#analysisObj$anotherField<-"test" #no, this does not work
+
+analysisObj <- myAnalysisClassHandle(myCharInit = "hello!")
+#analysisObj <- new("myAnalysisClass", myCharInit = "hello!") #alternatively 
+analysisObj$myObj
+analysisObj$doSomething(myNumSet = 99)
+analysisObj$myObj
+
+```
+
+# 10. Row-wise operations in a loop, revisited
+
+Sometimes you just want (or need) to have a loop. How can we make it not
+be slow?
+
+### Example: fast row-wise operations in data.table
+
+```{r}
+
+library(data.table)
+
+dt1 <- data.table(
+  id=c(1,2,3,4,5),
+  category=c('a','a','b','a','b'),
+  year=c(1986,1965,2007,1981,1999)
+)
+setkeyv(dt1,cols = c("id","category"))
+
+setorder(dt1, year,-id) #this orders the data.table
+
+someValue<-4
+
+for(iDt1 in 1:nrow(dt1)){
+  set(x = dt1, i = iDt1, j = "newColumn", value = iDt1+eval(someValue))
+}
+
+dt1
+
+
+```
+
+### Example: fast row-wise operations in a Reference Class
+
+```{r}
+
+myAnalysisClassHandle <- setRefClass(
+  "myAnalysisClass",
+   fields = list(
+   myChar = "character",
+   myNum = "numeric",
+   myDF = "ANY"
+   ),
+   methods = list
+   (
+     #this is the constructor as per convention
+     initialize=function(myCharInit)
+     {
+       myChar <<- myCharInit
+       myNum <<- 2
+       myDF <<- data.frame(
+                  id=c(1,2,3,4,5),
+                  category=c('a','a','b','a','b'),
+                  year=c(1986,1965,2007,1981,1999)
+                )
+     }
+  )
+)
+
+# perform the row-wise operation
+myAnalysisClassHandle$methods(
+  doSomething=function(index,newValue){
+    
+    myDF[index,c("newColumn")] <<- newValue
+   
+  }
+)
+
+
+someValue<-4
+analysisObj <- myAnalysisClassHandle(myCharInit = "hello!")
+
+for(iDf in 1:nrow(analysisObj$myDF)){
+  analysisObj$doSomething(iDf, iDf+someValue)
+}
+
+analysisObj$myDF
+
+
+```
+
+## Activity + Q&A
+
+-   Run the examples above
+-   Explore and run the fifth analysis script TBC!!!!

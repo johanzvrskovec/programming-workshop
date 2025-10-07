@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="297mm"
+   height="210mm"
+   viewBox="0 0 297 210"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   sodipodi:docname="deep_copy.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1"
+     inkscape:cx="595"
+     inkscape:cy="407.5"
+     inkscape:window-width="1680"
+     inkscape:window-height="1022"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="marker5"
+       refX="0"
+       refY="0"
+       orient="0.00"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="0.5"
+       markerHeight="0.5"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path5" />
+    </marker>
+    <rect
+       x="203"
+       y="126"
+       width="274"
+       height="88"
+       id="rect3" />
+    <rect
+       x="36"
+       y="34"
+       width="832.00001"
+       height="198"
+       id="rect2" />
+    <rect
+       x="203"
+       y="126"
+       width="274"
+       height="88"
+       id="rect3-9" />
+    <rect
+       x="203"
+       y="126"
+       width="274"
+       height="88"
+       id="rect3-7" />
+    <rect
+       x="203"
+       y="126"
+       width="274"
+       height="88"
+       id="rect3-9-2" />
+    <rect
+       x="203"
+       y="126"
+       width="284"
+       height="43.999999"
+       id="rect3-5" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#44aa00;stroke:#000000;stroke-width:0.264583"
+       id="rect1"
+       width="115.8875"
+       height="69.056252"
+       x="10.847917"
+       y="98.160408"
+       ry="5.5102916" />
+    <ellipse
+       style="fill:#aad400;stroke:#000000;stroke-width:0.264583"
+       id="path2"
+       cx="73.818756"
+       cy="42.201042"
+       rx="47.625"
+       ry="23.680208" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-12.7,0.79375)"
+       id="text2"
+       style="font-size:32px;line-height:1.25;font-family:sans-serif;text-align:center;white-space:pre;shape-inside:url(#rect3);display:inline"><tspan
+         x="208.82031"
+         y="155.19457"
+         id="tspan6">Our reference in </tspan><tspan
+         x="328.875"
+         y="195.19457"
+         id="tspan7">R</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,56.722119,-23.739956)"
+       id="text2-2"
+       style="font-size:32px;line-height:1.25;font-family:sans-serif;text-align:center;white-space:pre;shape-inside:url(#rect3-5);display:inline"><tspan
+         x="223.19531"
+         y="155.19457"
+         id="tspan8">Copy operation</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-22.123715,86.855877)"
+       id="text2-5"
+       style="font-size:32px;line-height:1.25;font-family:sans-serif;text-align:center;white-space:pre;shape-inside:url(#rect3-9);display:inline"><tspan
+         x="212.375"
+         y="155.19457"
+         id="tspan9">Underlying data </tspan><tspan
+         x="279.99219"
+         y="195.19457"
+         id="tspan10">storage</tspan></text>
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       d="M 73.818756,65.88125 V 98.160408"
+       id="path3"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#path2"
+       inkscape:connection-end="#rect1" />
+    <rect
+       style="fill:#44aa00;stroke:#000000;stroke-width:0.264583"
+       id="rect1-5"
+       width="115.8875"
+       height="69.056252"
+       x="157.82394"
+       y="98.292702"
+       ry="5.5102916" />
+    <ellipse
+       style="fill:#aad400;stroke:#000000;stroke-width:0.264583"
+       id="path2-6"
+       cx="220.79478"
+       cy="42.333332"
+       rx="47.625"
+       ry="23.680208" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,134.27604,0.92604133)"
+       id="text2-53"
+       style="font-size:32px;line-height:1.25;font-family:sans-serif;text-align:center;white-space:pre;shape-inside:url(#rect3-7);display:inline"><tspan
+         x="208.82031"
+         y="155.19457"
+         id="tspan11">Our reference in </tspan><tspan
+         x="328.875"
+         y="195.19457"
+         id="tspan12">R</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,124.85233,86.988173)"
+       id="text2-5-0"
+       style="font-size:32px;line-height:1.25;font-family:sans-serif;text-align:center;white-space:pre;shape-inside:url(#rect3-9-2);display:inline"><tspan
+         x="212.375"
+         y="155.19457"
+         id="tspan13">Underlying data </tspan><tspan
+         x="279.99219"
+         y="195.19457"
+         id="tspan14">storage</tspan></text>
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       d="M 220.79478,66.01354 V 98.292702"
+       id="path3-4"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#path2-6"
+       inkscape:connection-end="#rect1-5" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:7.52143;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker5)"
+       d="m 127.60466,42.587568 c 26.4028,0 26.4028,0.142639 26.4028,0.142639"
+       id="path4" />
+  </g>
+</svg>

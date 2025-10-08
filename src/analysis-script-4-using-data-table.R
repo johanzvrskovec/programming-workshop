@@ -6,8 +6,11 @@ library(data.table)
 
 set.seed(123) #this is for the randomised generation of a data subset
 
+#shared variables
+folderpath.project<-file.path("/Users","jakz","Documents","work_rstudio","programming-workshop") #platform independent file/folder path
+
 tic()
-dtVariantReference<-fread("/Users/jakz/Documents/work_rstudio/programming-workshop/data/reference.1000G.maf.0.005.txt.gz",
+dtVariantReference<-fread(file.path(folderpath.project,"data","reference.1000G.maf.0.005.txt.gz"),
               #sep = "\t",
               header = TRUE,
               fill = TRUE,
@@ -23,7 +26,7 @@ colnames(dtVariantReference)
 
 
 tic()
-dtGWAS<-fread("/Users/jakz/Documents/work_rstudio/programming-workshop/data/GCST90027164_buildGRCh37.tsv.gz",
+dtGWAS<-fread(file.path(folderpath.project,"data","GCST90027164_buildGRCh37.tsv.gz"),
               sep = "\t",
               header = TRUE,
               fill = TRUE,

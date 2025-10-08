@@ -4,8 +4,11 @@ library(tictoc)
 
 set.seed(123) #this is for the randomised generation of a data subset
 
+#shared variables
+folderpath.project<-file.path("/Users","jakz","Documents","work_rstudio","programming-workshop") #platform independent file/folder path
+
 tic()
-dfVariantReference<-read.table(gzfile("/Users/jakz/Documents/work_rstudio/programming-workshop/data/reference.1000G.maf.0.005.txt.gz"),
+dfVariantReference<-read.table(gzfile(file.path(folderpath.project,"data","reference.1000G.maf.0.005.txt.gz")),
               #sep = "\t",
               header = TRUE,
               fill = TRUE,
@@ -19,7 +22,7 @@ colnames(dfVariantReference)
 
 
 tic()
-dfGWAS<-read.table(gzfile("/Users/jakz/Documents/work_rstudio/programming-workshop/data/GCST90027164_buildGRCh37.tsv.gz"),
+dfGWAS<-read.table(gzfile(file.path(folderpath.project,"data","GCST90027164_buildGRCh37.tsv.gz")),
                sep = "\t",
                header = TRUE,
                fill = TRUE,

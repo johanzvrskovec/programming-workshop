@@ -1,4 +1,5 @@
-#The 'messy and slow' analysis script - you probably don't want to run this
+#The 'messy and slow' analysis script.
+#The script is actually so rudimentary that it has not become slow yet (apart from reading the data files).
 #install.packages('tictoc')
 library(tictoc)
 

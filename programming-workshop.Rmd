@@ -1,17 +1,33 @@
 ---
-title: "Programming workshop"
+title: "Programming workshop: From a slow analysis script to a fast and
+structured program in R"
 output: html_notebook
 editor_options: 
   markdown: 
     wrap: 72
 ---
 
-Aims - Speed - Comparmentalisation, modularity Compare with large
-analysis script with settings configured (hard coded) at multiple
-places.
+Version 1.0.0
 
-Topics - loops, general issues with control flow(?) speed in R -
-data.table - classes - R modules - Relational databases?
+Aims
+
+-   Speed
+
+-   Comparmentalisation and modularity
+
+Topics
+
+-   Loops
+
+-   General issues with control structure speed in R
+
+-   data.table
+
+-   Classes
+
+-   ~~R packages (sorry, this has been excluded due to time)~~
+
+-   ~~Relational databases (sorry, this has been excluded due to time)~~
 
 # Background
 
@@ -25,7 +41,17 @@ data.table - classes - R modules - Relational databases?
 
 # 0. Preparations
 
-5+10 min
+0+5 min
+
+## Activity + Q&A
+
+-   Open the project in your IDE (RStudio).
+
+-   (if you are all done) Edit the code in analysis script 1
+    ([here](src/analysis-script-1-messy-and-slow-analysis-script.R)) and
+    code chunks. Run this code. Look at the content of variables.
+
+## General
 
 If you are a new user of R and RStudio, **do not worry if you can't
 finish all the preparation steps right now**. There will be time later
@@ -89,22 +115,16 @@ Amyotrophic lateral sclerosis (ALS). This file can be downloaded from
 Do not forget to put the downloaded files into the project `data` folder
 for the workshop scripts to work.
 
-## Activity + Q&A
-
--   Get the project to run in your IDE (RStudio).
-
--   Edit the code in analysis script 1 and code chunks. Run this code.
-    Look at the content of variables.
-
 # 1. Baseline; an unstructured and slow analysis script
 
-T+15 min\
+T+5 min\
 5 min
 
 We can imagine an unstructured and slow analysis script which will serve
-as our starting point and reference. An example of such a script can be
-seen [here](src/analysis-script-1-messy-and-slow-analysis-script.R).
-This is a pretend scenario with made-up analyses which we will improve
+as our starting point and reference. An example of such a script;
+analysis script 1, can be seen
+[here](src/analysis-script-1-messy-and-slow-analysis-script.R). This is
+a pretend scenario with made-up analyses which we will improve
 throughout the workshop. The script is supposed to illustrate an
 analysis script which someone made to do *ad-hoc* computations.
 
@@ -123,7 +143,7 @@ It:
 
 # 2. Basic control structures
 
-T+20 min\
+T+10 min\
 5 min
 
 ## Conditional statements
@@ -220,7 +240,7 @@ myFunction(myArgument2 = 10)
 ## Conclusions
 
 -   Use control structures to structure your program and make it more
-    compartmentalised and re-useable.
+    compartmentalised and re-usable.
 
 -   You can make the program more effective both in terms of maintenance
     and readability, and in terms of resource use and execution speed.
@@ -236,8 +256,8 @@ Conditional control structures and loops
 
 # 3. Variable scope in control structures
 
-T+25 min\
-5 min
+T+15 min\
+5 + 10 min
 
 When using control structures, you need to be aware of the scope
 variables are in. Scope concerns:
@@ -251,7 +271,7 @@ environment. This was demonstrated in previous examples.
 
 Functions (and classes - see later content) do not share the scope of
 the outside environment in the same way. Functions can read external
-variables, but not set them in the outside scope.
+variables, but typically not set them in the outside scope.
 
 ### Example: scope in functions
 
@@ -277,34 +297,27 @@ var3
 
 ```
 
-# 4. A less messy, but still slow analysis script
+## Activity + Q&A
+
+-   Test the scope of a function in the above examples
+-   Try running the second analysis script. The second analysis script
+    continues on the pretend analysis scenario from the first script and
+    has been enhanced with basic loop control structures. You can find
+    it
+    [here](src/analysis-script-2-less-messy-but-slow-analysis-script.R).
+    It:
+    1.  Reads compressed files with csv/tsv type data into two
+        data-frames.
+
+    2.  Runs analysis steps for each specified genetic variant. The
+        specified genetic variants are held in the `lSelectedVariants`
+        list, which now is randomly generated as a subset of the GWAS
+        dataset.
+
+# 4. Data linking and joins
 
 T+30 min\
 5+10 min
-
-The second analysis script continues on the pretend analysis scenario
-from the first script and has been enhanced with basic loop control
-structures. You can find it
-[here](src/analysis-script-2-less-messy-but-slow-analysis-script.R).
-
-Please have a look inside this script.
-
-It:
-
-1.  Reads compressed files with csv/tsv type data into two data-frames.
-
-2.  Runs analysis steps for each specified genetic variant. The
-    specified genetic variants are held in the `lSelectedVariants` list,
-    which now is randomly generated as a subset of the GWAS dataset.
-
-## Activity + Q&A
-
--   Test the scope of a function
-
-# 5. Data linking and joins
-
-T+45\
-5 min
 
 A large part of our current pretend analysis consists of linking one
 dataset (the reference list) with the other datsaet (the GWAS dataset).
@@ -423,49 +436,27 @@ dfFullOuterJoin<-merge(df1,df2,by = "id", all.x = TRUE, all.y = TRUE)
 dfFullOuterJoin
 ```
 
-# 6. An analysis script using joins
-
-T+50 min\
-5+10 min
-
-The third analysis script continues on the pretend analysis scenario
-from the first and second scripts and has been changed to use an inner
-join instead of the value matching in the previous loop. You can find it
-[here](src/analysis-script-3-using-joins.R).
-
-Please have a look inside this script.
-
-It:
-
-1.  Reads compressed files with csv/tsv type data into two data-frames.
-
-2.  Runs analysis steps for each specified genetic variant. The
-    specified genetic variants are specified by the `selected` column in
-    the GWAS data frame, rather than in a separate list.
-
-3.  The output is based on the resulting data frame from the inner join
-    procedure.
-
 ## Activity + Q&A
 
 -   Run the different joins above.
--   Run the third analysis script and inspect the output.
+-   Run the third analysis script and inspect the output. The third
+    analysis script continues on the pretend analysis scenario from the
+    first and second scripts and has been changed to use an inner join
+    instead of the value matching in the previous loop. You can find it
+    [here](src/analysis-script-3-using-joins.R). It:
+    1.  Reads compressed files with csv/tsv type data into two
+        data-frames.
 
-# Longer break
+    2.  Runs analysis steps for each specified genetic variant. The
+        specified genetic variants are specified by the `selected`
+        column in the GWAS data frame, rather than in a separate list.
 
-T+65 min\
-0+10 min
+    3.  The output is based on the resulting data frame from the inner
+        join procedure.
 
-Here we have a longer break. This should be a real break and not a
-practical activity. Feel free to review the previous content and
-experiment with running the examples and scripts. You can also try to
-solve any technical issues you may have encountered; for example if you
-gave not yet managed to make your IDE working or gotten hold of the
-material.
+# 5. Introduction to the package data.table
 
-# 7. Introduction to the package data.table
-
-T+75 min\
+T+45 min\
 5+10 min
 
 ## Background
@@ -579,9 +570,21 @@ dt1[id==2, ] #row subset
 
 -   Run the data.table examples above
 
-# 8. Differences in memory models, and data.table joins
+# Longer break
 
-T+90 min\
+T+60 min\
+0+15 min
+
+Here we have a longer break. This should be a real break and not a
+practical activity. Feel free to review the previous content and
+experiment with running the examples and scripts. You can also try to
+solve any technical issues you may have encountered; for example if you
+gave not yet managed to make your IDE working or gotten hold of the
+material.
+
+# 6. Differences in memory models, and data.table joins
+
+T+75 min\
 5+10 min
 
 ## The memory model of data.table
@@ -761,6 +764,9 @@ dt1
 
 # 9. Classes in R, and specifically Reference Classes
 
+T+90 min\
+5 + 10 min
+
 Classes are extensions to function arguments and scopes where multiple
 functions can share the same context.
 
@@ -819,7 +825,16 @@ analysisObj$myObj
 
 ```
 
+## Activity + Q&A
+
+-   Run the example above.
+-   Try to add more member fields and functions/methods to your class.
+    Run your new methods.
+
 # 10. Row-wise operations in a loop, revisited
+
+T+105 min\
+5+10 min
 
 Sometimes you just want (or need) to have a loop. How can we make it not
 be slow?
@@ -841,7 +856,7 @@ setorder(dt1, year,-id) #this orders the data.table
 
 someValue<-4
 
-for(iDt1 in 1:nrow(dt1)){
+for(iDt1 in 1L:nrow(dt1)){
   set(x = dt1, i = iDt1, j = "newColumn", value = iDt1+eval(someValue))
 }
 
@@ -902,4 +917,5 @@ analysisObj$myDF
 ## Activity + Q&A
 
 -   Run the examples above
--   Explore and run the fifth analysis script TBC!!!!
+-   Explore and run the fifth analysis script
+    [here](src/analysis-script-5-loops-revisited.R).

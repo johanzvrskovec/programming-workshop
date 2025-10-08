@@ -762,7 +762,7 @@ dt1
 -   Explore and run the fourth analysis script
     [here](src/analysis-script-4-using-data-table.R).
 
-# 9. Classes in R, and specifically Reference Classes
+# 7. Classes in R, and specifically Reference Classes
 
 T+90 min\
 5 + 10 min
@@ -831,7 +831,7 @@ analysisObj$myObj
 -   Try to add more member fields and functions/methods to your class.
     Run your new methods.
 
-# 10. Row-wise operations in a loop, revisited
+# 8. Row-wise operations in a loop, revisited
 
 T+105 min\
 5+10 min

@@ -7,7 +7,11 @@ editor_options:
     wrap: 72
 ---
 
-Version 1.0.0
+Version 1.0.2
+
+1.0.2 - Fixed wrong name of field in class
+
+1.0.0 - First version
 
 Aims
 
@@ -208,6 +212,7 @@ lValuesToProcess <- c(1,2,3,4,5)
 output <-c()
 
 for(iV in 1:length(lValuesToProcess)){
+  #iV<-4
   output[iV]<-lValuesToProcess[iV]+1
 }
 
@@ -219,7 +224,7 @@ output
 
 Functions structure code that you want to execute repeatedly.
 
-Example: function, with default value for an argument
+### Example: function, with default value for an argument
 
 ```{r examples functions}
 
@@ -819,9 +824,9 @@ myAnalysisClassHandle$methods(
 
 analysisObj <- myAnalysisClassHandle(myCharInit = "hello!")
 #analysisObj <- new("myAnalysisClass", myCharInit = "hello!") #alternatively 
-analysisObj$myObj
+analysisObj$myDF
 analysisObj$doSomething(myNumSet = 99)
-analysisObj$myObj
+analysisObj$myDF
 
 ```
 
